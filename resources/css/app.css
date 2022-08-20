@@ -1,3 +1,23 @@
+@import "~bootstrap";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/*table {*/
+/*    border-collapse: collapse;*/
+/*}*/
+
+/*td {*/
+/*    position: relative;*/
+/*    padding: 5px 10px;*/
+/*}*/
+/*tr.paid td:before {*/
+/*    content: " ";*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 0;*/
+/*    border-bottom: 1px solid black;*/
+/*    width: 100%;*/
+/*}*/

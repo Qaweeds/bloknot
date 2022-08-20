@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'login',
     ];
 
     /**
@@ -37,4 +37,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function Records()
+    {
+        return $this->hasMany(Record::class)->withTrashed();
+    }
+
+    public function Clients()
+    {
+        return $this->belongsToMany(People::class, (new Record)->getTable());
+    }
 }

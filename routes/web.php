@@ -13,12 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/', \App\Http\Controllers\IndexController::class)->name('index');
+    Route::get('/record/add', [\App\Http\Controllers\RecordController::class, 'add'])->name('record.add');
+    Route::post('/record/store', [\App\Http\Controllers\RecordController::class, 'store'])->name('record.store');
+    Route::delete('/record/delete/{record}', [\App\Http\Controllers\RecordController::class, 'delete'])->name('record.delete')->can('delete', 'record');
+    Route::get('/records/{people}', [\App\Http\Controllers\RecordController::class, 'view'])->name('record.people');
+    Route::post('/record/form-view', [\App\Http\Controllers\RecordController::class, 'getFormView']);
+
+    Route::get('/clients', [\App\Http\Controllers\ClientController::class, 'index'])->name('clients');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
