@@ -33,17 +33,45 @@ class NewRecordRequest extends FormRequest
             'name' => 'sometimes|string|max:150',
             'quantity' => 'nullable|numeric',
             'price' => 'numeric',
+            'credit' => 'required_with:quantity|nullable|numeric',
         ];
     }
 
     public function save()
     {
+
         try {
             DB::transaction(function () {
                 if ($this->client == People::NEW) {
                     $this->client_id = People::create(['name' => $this->name])->id;
                 }
-                Record::create(['user_id' => auth()->id(), 'people_id' => $this->client_id, 'price' => $this->price, 'quantity' => $this->quantity]);
+                if($this->quantity == $this->credit){
+                    Record::create([
+                        'user_id' => auth()->id(),
+                        'people_id' => $this->client_id,
+                        'price' => $this->price,
+                        'quantity' => $this->quantity,
+                    ]);
+                }else{
+                    $paid = (int) $this->quantity - (int) $this->credit;
+
+                    Record::create([
+                        'user_id' => auth()->id(),
+                        'people_id' => $this->client_id,
+                        'price' => $this->price,
+                        'quantity' => $paid,
+                        'deleted_at' => now(),
+                    ]);
+
+                    Record::create([
+                        'user_id' => auth()->id(),
+                        'people_id' => $this->client_id,
+                        'price' => $this->price,
+                        'quantity' => $this->credit,
+                    ]);
+                }
+
+
             });
         } catch (QueryException $e) {
             return false;

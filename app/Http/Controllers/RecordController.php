@@ -11,10 +11,6 @@ use Illuminate\Support\Facades\View;
 
 class RecordController extends Controller
 {
-    public function index()
-    {
-
-    }
 
     public function add()
     {
@@ -31,7 +27,7 @@ class RecordController extends Controller
 
     public function view(People $people)
     {
-        $records = $people->records()->where('user_id', auth()->id())->get();
+        $records = $people->records()->where('user_id', auth()->id())->orderByDesc('created_at')->get();
 
         return view('record.view', compact('people', 'records'));
     }

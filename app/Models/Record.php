@@ -12,7 +12,7 @@ class Record extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['user_id', 'people_id', 'price', 'quantity'];
+    protected $fillable = ['user_id', 'people_id', 'price', 'quantity', 'deleted_at'];
 
     protected static function boot()
     {
