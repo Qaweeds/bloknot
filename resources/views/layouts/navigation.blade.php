@@ -70,7 +70,13 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('index')" :active="request()->routeIs('index')">
-                {{ __('index') }}
+                {{ __('Все записи') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('record.add')" :active="request()->routeIs('record.add')">
+                {{ __('Добавить запись') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('clients')" :active="request()->routeIs('clients')">
+                {{ __('Все клиенты') }}
             </x-responsive-nav-link>
         </div>
 
