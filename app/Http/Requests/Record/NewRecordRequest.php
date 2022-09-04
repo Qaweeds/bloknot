@@ -37,6 +37,12 @@ class NewRecordRequest extends FormRequest
         ];
     }
 
+    protected function prepareForValidation()
+    {
+        if(is_null($this->credit)) $this->merge(['credit'=> 0]);
+    }
+
+
     public function save()
     {
 
@@ -54,7 +60,6 @@ class NewRecordRequest extends FormRequest
                     ]);
                 }else{
                     $paid = (int) $this->quantity - (int) $this->credit;
-
                     Record::create([
                         'user_id' => auth()->id(),
                         'people_id' => $this->client_id,
@@ -62,13 +67,14 @@ class NewRecordRequest extends FormRequest
                         'quantity' => $paid,
                         'deleted_at' => now(),
                     ]);
-
-                    Record::create([
-                        'user_id' => auth()->id(),
-                        'people_id' => $this->client_id,
-                        'price' => $this->price,
-                        'quantity' => $this->credit,
-                    ]);
+                    if($this->credit){
+                        Record::create([
+                            'user_id' => auth()->id(),
+                            'people_id' => $this->client_id,
+                            'price' => $this->price,
+                            'quantity' => $this->credit,
+                        ]);
+                    }
                 }
 
 
