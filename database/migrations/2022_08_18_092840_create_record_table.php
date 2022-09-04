@@ -17,7 +17,7 @@ class CreateRecordTable extends Migration
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('people_id')->references('id')->on('people');
-            $table->float('sum');
+            $table->float('price');
             $table->timestamps();
         });
     }
